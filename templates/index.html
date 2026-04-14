@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Royal Salute — Fundo do Grupo</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97E;
+    --gold-dim: #7A5E2A;
+    --bg: #0A0804;
+    --bg2: #100E08;
+    --bg3: #1A1610;
+    --bg4: #221E14;
+    --text: #E8DFC8;
+    --text-dim: #7A7060;
+    --red: #B84040;
+    --green: #4A8C5C;
+    --border: rgba(201,168,76,0.18);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Mono', monospace; min-height: 100vh; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; opacity: 0.4; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  header { padding: 56px 0 32px; text-align: center; border-bottom: 1px solid var(--border); }
+  .crown { font-size: 42px; margin-bottom: 12px; filter: drop-shadow(0 0 20px rgba(201,168,76,0.5)); animation: glow 3s ease-in-out infinite alternate; }
+  @keyframes glow { from { filter: drop-shadow(0 0 10px rgba(201,168,76,0.3)); } to { filter: drop-shadow(0 0 30px rgba(201,168,76,0.7)); } }
+  header h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.4rem); color: var(--gold-light); letter-spacing: 0.08em; line-height: 1.1; }
+  header h1 span { font-style: italic; color: var(--gold); }
+  header p.subtitle { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--text-dim); margin-top: 10px; letter-spacing: 0.2em; text-transform: uppercase; }
+
+  .stats-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 40px 0; }
+  .stat-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 4px; padding: 24px 20px; text-align: center; position: relative; overflow: hidden; transition: border-color 0.3s; }
+  .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .stat-card:hover { border-color: var(--gold-dim); }
+  .stat-label { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
+  .stat-value { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold-light); }
+  .stat-value.small { font-size: 1.3rem; }
+
+  .progress-section { background: var(--bg3); border: 1px solid var(--border); border-radius: 4px; padding: 28px; margin-bottom: 32px; }
+  .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .progress-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; }
+  .progress-pct { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--gold-light); }
+  .progress-track { height: 8px; background: var(--bg4); border-radius: 4px; overflow: hidden; border: 1px solid var(--border); }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold-dim), var(--gold), var(--gold-light)); border-radius: 4px; transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; }
+  .progress-fill::after { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 20px; background: rgba(255,255,255,0.3); filter: blur(4px); }
+  .progress-meta { display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.72rem; color: var(--text-dim); letter-spacing: 0.1em; }
+
+  .pix-card { background: var(--bg3); border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: 4px; padding: 20px 24px; margin-bottom: 32px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .pix-icon { font-size: 2rem; }
+  .pix-info .label { font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-dim); }
+  .pix-info .key { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--gold-light); margin-top: 2px; }
+  .pix-info .bank { font-size: 0.75rem; color: var(--text-dim); margin-top: 2px; }
+
+  .chart-section { background: var(--bg3); border: 1px solid var(--border); border-radius: 4px; padding: 28px; margin-bottom: 32px; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 24px; }
+  .chart-bars { display: flex; flex-direction: column; gap: 14px; }
+  .chart-row { display: grid; grid-template-columns: 130px 1fr 90px; align-items: center; gap: 14px; }
+  .chart-name { font-size: 0.8rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .chart-bar-track { height: 24px; background: var(--bg4); border-radius: 2px; overflow: hidden; border: 1px solid rgba(201,168,76,0.08); }
+  .chart-bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold-dim), var(--gold)); border-radius: 2px; transition: width 1s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+  .chart-amount { font-family: 'Playfair Display', serif; font-size: 0.95rem; color: var(--gold-light); text-align: right; }
+
+  .participants-section { margin-bottom: 32px; }
+  .participants-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  thead tr { border-bottom: 1px solid var(--gold-dim); }
+  th { padding: 10px 14px; text-align: left; font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-dim); font-weight: 400; }
+  tbody tr { border-bottom: 1px solid rgba(201,168,76,0.06); transition: background 0.2s; }
+  tbody tr:hover { background: rgba(201,168,76,0.04); }
+  td { padding: 14px 14px; color: var(--text); }
+  td.name-cell { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--gold-light); }
+  td.amount-cell { font-family: 'Playfair Display', serif; color: var(--gold); }
+  td.months-cell { color: var(--text-dim); }
+  .badge { display: inline-block; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; border: 1px solid; }
+  .badge.active { border-color: var(--green); color: var(--green); }
+  .badge.inactive { border-color: var(--text-dim); color: var(--text-dim); }
+  .action-btns { display: flex; gap: 8px; }
+  .btn-icon { background: none; border: 1px solid var(--border); border-radius: 2px; color: var(--text-dim); cursor: pointer; padding: 6px 10px; font-size: 0.75rem; transition: all 0.2s; font-family: 'DM Mono', monospace; }
+  .btn-icon:hover { border-color: var(--gold-dim); color: var(--gold); }
+  .btn-icon.danger:hover { border-color: var(--red); color: var(--red); }
+
+  .btn { background: none; border: 1px solid var(--gold-dim); color: var(--gold); padding: 10px 22px; font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; border-radius: 2px; transition: all 0.25s; position: relative; overflow: hidden; }
+  .btn::before { content: ''; position: absolute; inset: 0; background: var(--gold); transform: translateX(-105%); transition: transform 0.3s ease; z-index: -1; }
+  .btn:hover::before { transform: translateX(0); }
+  .btn:hover { color: var(--bg); border-color: var(--gold); }
+  .btn.primary { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+  .btn.primary:hover { background: var(--gold-light); border-color: var(--gold-light); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(4px); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .modal-backdrop.open { opacity: 1; pointer-events: all; }
+  .modal { background: var(--bg2); border: 1px solid var(--border); border-top: 2px solid var(--gold); border-radius: 4px; padding: 36px; width: 100%; max-width: 480px; transform: translateY(20px); transition: transform 0.3s; position: relative; }
+  .modal-backdrop.open .modal { transform: translateY(0); }
+  .modal h2 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--gold-light); margin-bottom: 6px; }
+  .modal p.modal-sub { font-size: 0.72rem; color: var(--text-dim); letter-spacing: 0.1em; margin-bottom: 28px; }
+  .form-group { margin-bottom: 20px; }
+  .form-group label { display: block; font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
+  .form-group input, .form-group select { width: 100%; background: var(--bg4); border: 1px solid var(--border); border-radius: 2px; color: var(--text); padding: 12px 14px; font-family: 'DM Mono', monospace; font-size: 0.85rem; transition: border-color 0.2s; outline: none; }
+  .form-group input:focus, .form-group select:focus { border-color: var(--gold-dim); }
+  .form-group input::placeholder { color: var(--text-dim); }
+  .modal-actions { display: flex; gap: 12px; margin-top: 28px; justify-content: flex-end; }
+  .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: var(--text-dim); font-size: 1.2rem; cursor: pointer; line-height: 1; transition: color 0.2s; }
+  .modal-close:hover { color: var(--gold); }
+
+  .settings-section { background: var(--bg3); border: 1px solid var(--border); border-radius: 4px; padding: 28px; margin-bottom: 32px; }
+  .settings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 20px; }
+
+  footer { border-top: 1px solid var(--border); padding: 32px 0; text-align: center; color: var(--text-dim); font-size: 0.7rem; letter-spacing: 0.15em; margin-top: 20px; }
+  footer span { color: var(--gold-dim); }
+
+  .toast { position: fixed; bottom: 30px; right: 30px; background: var(--bg3); border: 1px solid var(--gold-dim); border-left: 3px solid var(--gold); color: var(--text); padding: 14px 20px; font-size: 0.78rem; border-radius: 2px; z-index: 200; transform: translateX(120%); transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); max-width: 320px; }
+  .toast.show { transform: translateX(0); }
+  .toast.error { border-left-color: var(--red); border-color: var(--red); }
+
+  .empty-state { text-align: center; padding: 60px 20px; color: var(--text-dim); }
+  .empty-state .icon { font-size: 3rem; margin-bottom: 16px; }
+  .empty-state p { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; margin-bottom: 20px; }
+
+  .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(201,168,76,0.3); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 6px; vertical-align: middle; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 640px) {
+    .chart-row { grid-template-columns: 90px 1fr 70px; }
+    .modal { padding: 24px 20px; }
+    th:nth-child(3), td:nth-child(3), th:nth-child(4), td:nth-child(4) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="crown">👑</div>
+    <h1>Royal <span>Salute</span></h1>
+    <p class="subtitle">Fundo do Grupo &mdash; Coleção 21 Anos</p>
+  </header>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-label">Total Arrecadado</div>
+      <div class="stat-value" id="statTotal">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Meta</div>
+      <div class="stat-value" id="statMeta">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Participantes Ativos</div>
+      <div class="stat-value" id="statCount">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Falta</div>
+      <div class="stat-value" id="statFalta">—</div>
+    </div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-section">
+    <div class="progress-header">
+      <div class="progress-title">⬛ Progresso da Meta</div>
+      <div class="progress-pct" id="progressPct">0%</div>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+    <div class="progress-meta">
+      <span id="progressLeft">Carregando...</span>
+      <span id="progressMonth"></span>
+    </div>
+  </div>
+
+  <!-- PIX INFO -->
+  <div class="pix-card">
+    <div class="pix-icon">💸</div>
+    <div class="pix-info">
+      <div class="label">Chave Pix para depósito</div>
+      <div class="key" id="pixKey">—</div>
+      <div class="bank" id="pixBank">Configure nas configurações abaixo</div>
+    </div>
+    <div style="margin-left:auto">
+      <div class="stat-label">Mensalidade Padrão</div>
+      <div class="stat-value small" id="pixMonthly">—</div>
+    </div>
+  </div>
+
+  <!-- CHART -->
+  <div class="chart-section">
+    <div class="section-title">◆ Contribuições por Participante</div>
+    <div class="chart-bars" id="chartBars">
+      <div class="empty-state"><div class="icon">📊</div><p>Carregando dados...</p></div>
+    </div>
+  </div>
+
+  <!-- PARTICIPANTS TABLE -->
+  <div class="participants-section">
+    <div class="participants-header">
+      <div class="section-title" style="margin-bottom:0">◆ Participantes</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn" onclick="openAddPaymentModal()">+ Registrar Pagamento</button>
+        <button class="btn primary" onclick="openAddParticipantModal()">+ Participante</button>
+      </div>
+    </div>
+    <div id="tableWrapper">
+      <div class="empty-state"><div class="icon">⏳</div><p>Carregando participantes...</p></div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="settings-section">
+    <div class="section-title">◆ Configurações</div>
+    <div class="settings-grid">
+      <div class="form-group">
+        <label>Meta Total (R$)</label>
+        <input type="number" id="settingMeta" placeholder="Ex: 1200" min="0">
+      </div>
+      <div class="form-group">
+        <label>Mensalidade Padrão (R$)</label>
+        <input type="number" id="settingMonthly" placeholder="Ex: 100" min="0">
+      </div>
+      <div class="form-group">
+        <label>Chave Pix</label>
+        <input type="text" id="settingPix" placeholder="CPF, e-mail, telefone ou chave aleatória">
+      </div>
+      <div class="form-group">
+        <label>Banco / Nome da conta</label>
+        <input type="text" id="settingBank" placeholder="Ex: Nubank — João Silva">
+      </div>
+    </div>
+    <button class="btn primary" id="btnSaveSettings" onclick="saveSettings()">Salvar Configurações</button>
+  </div>
+
+</div><!-- /container -->
+
+<footer>
+  <div class="container">
+    <span>Royal Salute Group Fund</span> &mdash; Para os amigos de bom gosto
+  </div>
+</footer>
+
+<!-- MODAL: Add Participant -->
+<div class="modal-backdrop" id="modalParticipant">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modalParticipant')">✕</button>
+    <h2>Novo Participante</h2>
+    <p class="modal-sub">Adicione um membro ao grupo</p>
+    <div class="form-group">
+      <label>Nome</label>
+      <input type="text" id="pName" placeholder="Nome do participante">
+    </div>
+    <div class="form-group">
+      <label>Mensalidade personalizada (R$) — deixe vazio para usar o padrão</label>
+      <input type="number" id="pMonthly" placeholder="Opcional">
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('modalParticipant')">Cancelar</button>
+      <button class="btn primary" id="btnAddParticipant" onclick="addParticipant()">Adicionar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Register Payment -->
+<div class="modal-backdrop" id="modalPayment">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modalPayment')">✕</button>
+    <h2>Registrar Pagamento</h2>
+    <p class="modal-sub">Confirme o recebimento de um Pix</p>
+    <div class="form-group">
+      <label>Participante</label>
+      <select id="payParticipant" onchange="onPayParticipantChange()"></select>
+    </div>
+    <div class="form-group">
+      <label>Valor (R$)</label>
+      <input type="number" id="payAmount" placeholder="Ex: 100" min="0">
+    </div>
+    <div class="form-group">
+      <label>Mês de referência</label>
+      <input type="month" id="payMonth">
+    </div>
+    <div class="form-group">
+      <label>Observação (opcional)</label>
+      <input type="text" id="payNote" placeholder="Ex: Pix recebido às 14h">
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('modalPayment')">Cancelar</button>
+      <button class="btn primary" id="btnRegisterPayment" onclick="registerPayment()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Edit Participant -->
+<div class="modal-backdrop" id="modalEdit">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modalEdit')">✕</button>
+    <h2>Editar Participante</h2>
+    <p class="modal-sub" id="editSubtitle"></p>
+    <input type="hidden" id="editId">
+    <div class="form-group">
+      <label>Nome</label>
+      <input type="text" id="editName">
+    </div>
+    <div class="form-group">
+      <label>Mensalidade personalizada (R$)</label>
+      <input type="number" id="editMonthly" placeholder="Deixe vazio para padrão">
+    </div>
+    <div class="form-group">
+      <label>Status</label>
+      <select id="editStatus">
+        <option value="active">Ativo</option>
+        <option value="inactive">Inativo</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('modalEdit')">Cancelar</button>
+      <button class="btn primary" id="btnSaveEdit" onclick="saveEdit()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Payment History -->
+<div class="modal-backdrop" id="modalHistory">
+  <div class="modal" style="max-width:600px">
+    <button class="modal-close" onclick="closeModal('modalHistory')">✕</button>
+    <h2 id="histName"></h2>
+    <p class="modal-sub" id="histTotal"></p>
+    <div style="overflow-x:auto;margin-top:8px">
+      <table>
+        <thead><tr><th>Mês</th><th>Valor</th><th>Obs.</th><th></th></tr></thead>
+        <tbody id="histRows"></tbody>
+      </table>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('modalHistory')">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── STATE ───────────────────────────────────────────────────────────
+// App state lives in memory; every mutation calls the API and refreshes.
+let STATE = {
+  participants: [],   // [{id, nome, mensalidade, status, total, num_pagamentos}]
+  config: {{ config | tojson }},  // pre-loaded from Flask on first render
+};
+
+// ─── UTILS ───────────────────────────────────────────────────────────
+
+function fmt(n) {
+  return 'R$ ' + Number(n).toLocaleString('pt-BR',
+    { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+async function api(path, options = {}) {
+  const res = await fetch(path, {
+    headers: { 'Content-Type': 'application/json' },
+    ...options,
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(err || res.statusText);
+  }
+  if (res.status === 204) return null;
+  return res.json();
+}
+
+function setLoading(btnId, loading) {
+  const btn = document.getElementById(btnId);
+  if (!btn) return;
+  btn.disabled = loading;
+  btn.innerHTML = loading
+    ? `<span class="spinner"></span>Aguarde...`
+    : btn.dataset.label || btn.textContent;
+}
+
+// ─── RENDER ──────────────────────────────────────────────────────────
+
+async function loadAndRender() {
+  try {
+    const [stats, participants] = await Promise.all([
+      api('/api/stats'),
+      api('/api/participantes'),
+    ]);
+    STATE.participants = participants;
+    STATE.config = {
+      meta: stats.meta,
+      monthly: stats.mensalidade_padrao,
+      pix: stats.pix_key,
+      bank: stats.bank_name,
+    };
+    renderStats(stats);
+    renderProgress(stats);
+    renderPixInfo(STATE.config);
+    renderChart(participants);
+    renderTable(participants, STATE.config);
+    renderSettingsForm(STATE.config);
+  } catch (e) {
+    toast('Erro ao carregar dados: ' + e.message, true);
+  }
+}
+
+function renderStats(s) {
+  document.getElementById('statTotal').textContent = fmt(s.total_arrecadado);
+  document.getElementById('statMeta').textContent  = s.meta ? fmt(s.meta) : '—';
+  document.getElementById('statCount').textContent = s.participantes_ativos;
+  document.getElementById('statFalta').textContent = s.meta ? fmt(s.falta) : '—';
+}
+
+function renderProgress(s) {
+  const pct = s.percentual || 0;
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('progressFill').style.width = Math.min(pct, 100) + '%';
+  document.getElementById('progressLeft').textContent = s.meta
+    ? `Faltam ${fmt(s.falta)} para a meta`
+    : 'Configure a meta nas configurações';
+  const now = new Date();
+  document.getElementById('progressMonth').textContent =
+    now.toLocaleString('pt-BR', { month: 'long', year: 'numeric' });
+}
+
+function renderPixInfo(cfg) {
+  document.getElementById('pixKey').textContent  = cfg.pix  || '—';
+  document.getElementById('pixBank').textContent = cfg.bank || 'Configure nas configurações abaixo';
+  document.getElementById('pixMonthly').textContent = fmt(cfg.monthly || 0);
+}
+
+function renderChart(participants) {
+  const container = document.getElementById('chartBars');
+  if (!participants.length) {
+    container.innerHTML = `<div class="empty-state"><div class="icon">📊</div><p>Adicione participantes para ver o gráfico</p></div>`;
+    return;
+  }
+  const sorted = [...participants].sort((a, b) => b.total - a.total);
+  const max = Math.max(...sorted.map(p => p.total), 1);
+  container.innerHTML = sorted.map(p => {
+    const pct = Math.round((p.total / max) * 100);
+    return `<div class="chart-row">
+      <div class="chart-name" title="${p.nome}">${p.nome}</div>
+      <div class="chart-bar-track"><div class="chart-bar-fill" style="width:${pct}%"></div></div>
+      <div class="chart-amount">${fmt(p.total)}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderTable(participants, cfg) {
+  const wrapper = document.getElementById('tableWrapper');
+  if (!participants.length) {
+    wrapper.innerHTML = `<div class="empty-state">
+      <div class="icon">👥</div><p>Nenhum participante ainda</p>
+      <button class="btn primary" onclick="openAddParticipantModal()">Adicionar primeiro participante</button>
+    </div>`;
+    return;
+  }
+  const rows = participants.map(p => {
+    const monthly = p.mensalidade || cfg.monthly || 0;
+    return `<tr>
+      <td class="name-cell">${p.nome}</td>
+      <td class="amount-cell">${fmt(p.total)}</td>
+      <td class="months-cell">${p.num_pagamentos} pagamento${p.num_pagamentos !== 1 ? 's' : ''}</td>
+      <td>${monthly ? fmt(monthly) + '/mês' : '—'}</td>
+      <td><span class="badge ${p.status}">${p.status === 'active' ? 'Ativo' : 'Inativo'}</span></td>
+      <td><div class="action-btns">
+        <button class="btn-icon" onclick="openEditModal(${p.id})" title="Editar">✏️</button>
+        <button class="btn-icon" onclick="openHistoryModal(${p.id})" title="Histórico">📋</button>
+        <button class="btn-icon danger" onclick="removeParticipant(${p.id}, '${p.nome.replace(/'/g,"\\'")}')">🗑</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+  wrapper.innerHTML = `<table>
+    <thead><tr>
+      <th>Nome</th><th>Total</th><th>Pagamentos</th>
+      <th>Mensalidade</th><th>Status</th><th>Ações</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+function renderSettingsForm(cfg) {
+  document.getElementById('settingMeta').value    = cfg.meta    || '';
+  document.getElementById('settingMonthly').value = cfg.monthly || '';
+  document.getElementById('settingPix').value     = cfg.pix     || '';
+  document.getElementById('settingBank').value    = cfg.bank    || '';
+}
+
+// ─── ACTIONS ─────────────────────────────────────────────────────────
+
+async function saveSettings() {
+  setLoading('btnSaveSettings', true);
+  try {
+    await api('/api/config', {
+      method: 'PUT',
+      body: JSON.stringify({
+        meta:    parseFloat(document.getElementById('settingMeta').value)    || 0,
+        monthly: parseFloat(document.getElementById('settingMonthly').value) || 0,
+        pix:     document.getElementById('settingPix').value.trim(),
+        bank:    document.getElementById('settingBank').value.trim(),
+      }),
+    });
+    await loadAndRender();
+    toast('Configurações salvas ✓');
+  } catch (e) {
+    toast('Erro: ' + e.message, true);
+  } finally {
+    document.getElementById('btnSaveSettings').disabled = false;
+    document.getElementById('btnSaveSettings').textContent = 'Salvar Configurações';
+  }
+}
+
+async function addParticipant() {
+  const nome = document.getElementById('pName').value.trim();
+  if (!nome) { toast('Digite o nome do participante'); return; }
+  setLoading('btnAddParticipant', true);
+  try {
+    await api('/api/participantes', {
+      method: 'POST',
+      body: JSON.stringify({
+        nome,
+        mensalidade: parseFloat(document.getElementById('pMonthly').value) || 0,
+      }),
+    });
+    document.getElementById('pName').value    = '';
+    document.getElementById('pMonthly').value = '';
+    closeModal('modalParticipant');
+    await loadAndRender();
+    toast(`${nome} adicionado ao grupo ✓`);
+  } catch (e) {
+    toast('Erro: ' + e.message, true);
+  } finally {
+    document.getElementById('btnAddParticipant').disabled = false;
+    document.getElementById('btnAddParticipant').textContent = 'Adicionar';
+  }
+}
+
+async function removeParticipant(id, nome) {
+  if (!confirm(`Remover ${nome}? Os pagamentos serão apagados junto.`)) return;
+  try {
+    await api(`/api/participantes/${id}`, { method: 'DELETE' });
+    await loadAndRender();
+    toast(`${nome} removido`);
+  } catch (e) {
+    toast('Erro: ' + e.message, true);
+  }
+}
+
+function openAddParticipantModal() {
+  openModal('modalParticipant');
+}
+
+function openAddPaymentModal() {
+  const active = STATE.participants.filter(p => p.status === 'active');
+  if (!active.length) { toast('Adicione participantes primeiro'); return; }
+  const sel = document.getElementById('payParticipant');
+  sel.innerHTML = active.map(p => `<option value="${p.id}">${p.nome}</option>`).join('');
+  // Default: current month
+  const now = new Date();
+  document.getElementById('payMonth').value =
+    now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+  // Auto-fill amount
+  onPayParticipantChange();
+  openModal('modalPayment');
+}
+
+function onPayParticipantChange() {
+  const id = parseInt(document.getElementById('payParticipant').value);
+  const p  = STATE.participants.find(x => x.id === id);
+  document.getElementById('payAmount').value =
+    (p && p.mensalidade) || STATE.config.monthly || '';
+}
+
+async function registerPayment() {
+  const participante_id = parseInt(document.getElementById('payParticipant').value);
+  const valor           = parseFloat(document.getElementById('payAmount').value);
+  const mes_referencia  = document.getElementById('payMonth').value;
+  const observacao      = document.getElementById('payNote').value.trim();
+  if (!participante_id || !valor || !mes_referencia) {
+    toast('Preencha todos os campos obrigatórios'); return;
+  }
+  setLoading('btnRegisterPayment', true);
+  try {
+    await api('/api/pagamentos', {
+      method: 'POST',
+      body: JSON.stringify({ participante_id, valor, mes_referencia, observacao }),
+    });
+    document.getElementById('payNote').value = '';
+    closeModal('modalPayment');
+    await loadAndRender();
+    const p = STATE.participants.find(x => x.id === participante_id);
+    toast(`Pagamento de ${fmt(valor)} registrado para ${p ? p.nome : ''} ✓`);
+  } catch (e) {
+    toast('Erro: ' + e.message, true);
+  } finally {
+    document.getElementById('btnRegisterPayment').disabled = false;
+    document.getElementById('btnRegisterPayment').textContent = 'Confirmar';
+  }
+}
+
+function openEditModal(id) {
+  const p = STATE.participants.find(x => x.id === id);
+  if (!p) return;
+  document.getElementById('editId').value       = id;
+  document.getElementById('editName').value     = p.nome;
+  document.getElementById('editMonthly').value  = p.mensalidade || '';
+  document.getElementById('editStatus').value   = p.status;
+  document.getElementById('editSubtitle').textContent = `Editando: ${p.nome}`;
+  openModal('modalEdit');
+}
+
+async function saveEdit() {
+  const id = parseInt(document.getElementById('editId').value);
+  setLoading('btnSaveEdit', true);
+  try {
+    await api(`/api/participantes/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        nome:        document.getElementById('editName').value.trim(),
+        mensalidade: parseFloat(document.getElementById('editMonthly').value) || 0,
+        status:      document.getElementById('editStatus').value,
+      }),
+    });
+    closeModal('modalEdit');
+    await loadAndRender();
+    toast('Participante atualizado ✓');
+  } catch (e) {
+    toast('Erro: ' + e.message, true);
+  } finally {
+    document.getElementById('btnSaveEdit').disabled = false;
+    document.getElementById('btnSaveEdit').textContent = 'Salvar';
+  }
+}
+
+async function openHistoryModal(id) {
+  const p = STATE.participants.find(x => x.id === id);
+  if (!p) return;
+  document.getElementById('histName').textContent  = p.nome;
+  document.getElementById('histTotal').textContent = 'Carregando histórico...';
+  document.getElementById('histRows').innerHTML    = '';
+  openModal('modalHistory');
+  try {
+    const payments = await api(`/api/pagamentos?participante_id=${id}`);
+    const total    = payments.reduce((s, x) => s + x.valor, 0);
+    document.getElementById('histTotal').textContent =
+      `Total depositado: ${fmt(total)} — ${payments.length} pagamento(s)`;
+    document.getElementById('histRows').innerHTML = payments.length
+      ? payments.map(pay => {
+          const [yr, mo] = pay.mes_referencia.split('-');
+          const label    = new Date(yr, mo - 1).toLocaleString('pt-BR',
+            { month: 'long', year: 'numeric' });
+          return `<tr>
+            <td>${label}</td>
+            <td class="amount-cell">${fmt(pay.valor)}</td>
+            <td style="color:var(--text-dim);font-size:0.75rem">${pay.observacao || '—'}</td>
+            <td><button class="btn-icon danger" onclick="removePayment(${pay.id}, ${id})">🗑</button></td>
+          </tr>`;
+        }).join('')
+      : `<tr><td colspan="4" style="text-align:center;color:var(--text-dim);padding:30px">
+           Nenhum pagamento registrado</td></tr>`;
+  } catch (e) {
+    toast('Erro ao carregar histórico: ' + e.message, true);
+  }
+}
+
+async function removePayment(pgid, participanteId) {
+  if (!confirm('Remover este pagamento?')) return;
+  try {
+    await api(`/api/pagamentos/${pgid}`, { method: 'DELETE' });
+    await loadAndRender();
+    openHistoryModal(participanteId);   // refresh history
+    toast('Pagamento removido');
+  } catch (e) {
+    toast('Erro: ' + e.message, true);
+  }
+}
+
+// ─── MODAL UTILS ─────────────────────────────────────────────────────
+
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+document.querySelectorAll('.modal-backdrop').forEach(el => {
+  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
+});
+
+// ─── TOAST ───────────────────────────────────────────────────────────
+
+function toast(msg, isError = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.toggle('error', isError);
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────
+
+loadAndRender();
+</script>
+</body>
+</html>
