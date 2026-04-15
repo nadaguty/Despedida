@@ -6,7 +6,7 @@ Aplicação web Full Stack para acompanhar a arrecadação coletiva do grupo.
 - **Backend:** Python 3.11 + Flask + SQLAlchemy
 - **Banco de dados:** PostgreSQL
 - **Frontend:** HTML/CSS/JS puro (sem framework) integrado via Fetch API
-- **Deploy:** Render ou Railway (gratuito)
+- **Deploy:** Render (gratuito)
 
 ---
 
@@ -71,17 +71,6 @@ Acesse: http://localhost:5000
    - **Start Command:** `gunicorn app:app`
    - **Environment Variable:** `DATABASE_URL` = (URL copiada no passo 2)
 5. Clique em **Deploy** — o Render cria as tabelas automaticamente na primeira inicialização.
-
----
-
-## Deploy no Railway (gratuito)
-
-1. Crie conta em https://railway.app
-2. **New Project → Deploy from GitHub repo**
-3. **Add Service → Database → PostgreSQL**
-4. Nas variáveis do serviço Flask, adicione:
-   - `DATABASE_URL` = `${{Postgres.DATABASE_URL}}` (Railway injeta automaticamente)
-5. Configure o start command: `gunicorn app:app`
 
 ---
 
